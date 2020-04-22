@@ -103,20 +103,25 @@ public class MyMaze{
     }
     /* TODO: Print a representation of the maze to the terminal */
     public void printMaze(boolean path) {
-        String
-        for(int i = 0; int){
-                        for(int j = 0; int){
-                String stringy = " "
-                        //In this order
-                '|---|'
-                if(this.maze[i][j].getVisited() == true){
-                    '*'
-
+        String mazePrinted = "";
+        for(int i = 0; i < maze.length; i++){
+            for(int j = 0; i < maze.length-1;i++){
+                mazePrinted + '|---|';
+                if(path == true) {
+                    if(this.maze[i][j].getVisited() == true){
+                        mazePrinted + '*';
+                    }
+                    else if(this.maze[i][j].getBottom() == true){
+                        mazePrinted + '|---|';
+                    }
+                    else if (this.maze[i][j].getRight()) == true){
+                        mazePrinted + '|';
+                    }
+                    //check if the bottom is there
+                    //check to see if right wall is there
                 }
-                //check if the bottom is there
-                //check to see if right wall is there
             }
-                        //add '/n' to string
+            mazePrinted + "\n"; // newline character after for loop
         }
     }
 
