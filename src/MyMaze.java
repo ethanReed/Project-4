@@ -25,7 +25,7 @@ public class MyMaze{
         Stack1Gen s = new Stack1Gen();
         m.maze[0][0].setVisited(true);
         Cell start = m.maze[0][0];
-        s.push({0,0});
+        s.push(new int[]{0, 0});
         Random r = new Random();
 
         while(!(s.isEmpty())){
@@ -103,6 +103,21 @@ public class MyMaze{
     }
     /* TODO: Print a representation of the maze to the terminal */
     public void printMaze(boolean path) {
+        String
+        for(int i = 0; int){
+                        for(int j = 0; int){
+                String stringy = " "
+                        //In this order
+                '|---|'
+                if(this.maze[i][j].getVisited() == true){
+                    '*'
+
+                }
+                //check if the bottom is there
+                //check to see if right wall is there
+            }
+                        //add '/n' to string
+        }
     }
 
     /* TODO: Solve the maze using the algorithm found in the writeup. */
