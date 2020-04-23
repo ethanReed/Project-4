@@ -1,9 +1,10 @@
 // Names:
 // x500s:
 //REEDX500 JOHAL004
-//REEDX500 JOHALL004
-import java.util.Queue;
+
 import java.util.Random;
+
+import static sun.jvm.hotspot.runtime.PerfMemory.top;
 
 public class MyMaze{
     private Cell[][] maze;
@@ -32,79 +33,25 @@ public class MyMaze{
             int[] nextPossiblelevel = (int[]) s.top();
             int [] options = spotsOpen(m.maze, nextPossiblelevel);
 
-            int row = nextPossiblelevel[0];
-            int column = nextPossiblelevel[1];
-
-
             int randomIndex = r.nextInt((options.length) + 1);
 
             //need to check each value
             if(options[randomIndex] == 1){//East
-//                int[] eastMovement = nextPossiblelevel[[0]+1][1];
-                row = row + 1;
-                int[] eastMovement = new int[2];
-                eastMovement[0] = row;
-                eastMovement[1] = column;
 
-
-                m.maze[row][column].setVisited(true);//since we know we can go to the right, this is true
-                m.maze[row][column].setRight(true);//we go into the right and set right to be true
-                //load the east movement onto the stack bc the coordinates are right
-
-                s.push(eastMovement);
 
             }else if(options[randomIndex] == 2){//west
-                row = row - 1;
-               int[] westMovement = new int[2];
-
-               westMovement[0] = row;
-               westMovement[1] = column;
-
-                m.maze[row][column].setVisited(true);//since we know we can go to the left, this is true
-                //There is no right wall so we do not have to worry about that.
-
-                s.push(westMovement);
-
 
             }else if(options[randomIndex] == 3){//south
-                column = column - 1;
-               int[] southMovement = new int[2];
-
-               southMovement[0] = row;
-               southMovement[1] = column;
-
-                m.maze[row][column].setVisited(true);//since we know we can go below, this is true
-                m.maze[row][column].setBottom(true);//we go into below and set right to be true
-                //load the south movement onto the stack bc the coordinates are right
-
-                s.push(southMovement);
-
 
             }else if(options[randomIndex] == 4){//north
-                column = column + 1;
-                int[] northMovement = new int[2];
-                m.maze[row][column].setVisited(true);//since we know we can go below, this is true
 
-                northMovement[0] = row;
-                northMovement[1] = column;
-
-                //load the south movement onto the stack bc the coordinates are right
-
-                s.push(northMovement);
-
-            }else{//since we covered our bases if there is not an open spot we pop nextPossibleLevel off the stack
-                s.pop();
             }
 
         }
-        //Now that we have gone through the whole maze, we need to reset has visited, but we have established a path through the maze
 
-        for(int i = 0; i < m.maze.length; i++){
-            for(int j = 0; j < m.maze.length; j++){
-                m.maze[i][j].setVisited(false);
-            }
-        }
-        return m;//return the maze object
+
+
+        return null;
     }
     public static int[] spotsOpen(Cell[][] maze, int[] spot){
         int count = 0;
@@ -131,7 +78,7 @@ public class MyMaze{
             count++;
             north = true;
         }
-        int[] possibleChoices = new int[count];
+        int[] possibleChoices = [1][count];
 
         int fillCheck = 0;
         while(fillCheck != count){
@@ -156,15 +103,30 @@ public class MyMaze{
     }
     /* TODO: Print a representation of the maze to the terminal */
     public void printMaze(boolean path) {
-
+        String mazePrinted = "";
+        for(int i = 0; i < maze.length; i++){
+            for(int j = 0; i < maze.length-1;i++){
+                mazePrinted + '|---|';
+                if(path == true) {
+                    if(this.maze[i][j].getVisited() == true){
+                        mazePrinted + '*';
+                    }
+                    else if(this.maze[i][j].getBottom() == true){
+                        mazePrinted + '|---|';
+                    }
+                    else if (this.maze[i][j].getRight()) == true){
+                        mazePrinted + '|';
+                    }
+                    //check if the bottom is there
+                    //check to see if right wall is there
+                }
+            }
+            mazePrinted + "\n"; // newline character after for loop
+        }
     }
 
     /* TODO: Solve the maze using the algorithm found in the writeup. */
     public void solveMaze() {
-        Q1Gen q = new Q1Gen();
-
-
-        q.add(new int [] {0,0});
     }
 
     public static void main(String[] args){
