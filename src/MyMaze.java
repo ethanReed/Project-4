@@ -1,7 +1,8 @@
 // Names:
 // x500s:
 //REEDX500 JOHAL004
-
+//REEDX500 JOHALL004
+import java.util.Queue;
 import java.util.Random;
 
 public class MyMaze{
@@ -160,6 +161,10 @@ public class MyMaze{
 
     /* TODO: Solve the maze using the algorithm found in the writeup. */
     public void solveMaze() {
+        Q1Gen q = new Q1Gen();
+
+
+        q.add(new int [] {0,0});
     }
 
     public static void main(String[] args){
