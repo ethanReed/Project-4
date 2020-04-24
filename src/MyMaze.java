@@ -162,10 +162,26 @@ public class MyMaze{
     /* TODO: Print a representation of the maze to the terminal */
     public void printMaze(boolean path) {
         String mazePrinted[][] = new String[rows * 2 + 1][cols * 2 + 1];
-//        String visited = " * ";
-//        String bottom = "---";
-//        String right = "|";
-//        String space = "   ";
+        String bottom = "---";
+        String right = "|";
+        String space = "   ";
+        for (int i = 0; i < mazePrinted.length; i += 2) {
+            for (int j = 1; j < mazePrinted[i].length; j++) {
+                mazePrinted[i][j] = bottom;
+            }
+        }
+        for (int i = 0; i < mazePrinted.length; i++) {
+            for (int j = 0; j < mazePrinted[i].length; j += 2) {
+                mazePrinted[i][j] = right;
+            }
+        }
+        for (int i = 1; i < mazePrinted.length; i += 2) {
+            for (int j = 1; j < mazePrinted[i].length; j += 2) {
+                mazePrinted[i][j] = space;
+            }
+        }
+        mazePrinted[1][0] = " ";
+        mazePrinted[mazePrinted.length-2][mazePrinted[0].length-1] = " ";
         for (int i = 0; i < maze.length; i++) {
             for (int j = 0; j < maze.length; j++) {
                 maze[i][j].setVisited(true);
@@ -190,7 +206,9 @@ public class MyMaze{
                 //update
                 if (path && maze[i][j].getVisited()) {
                     mazePrinted[2 * i + 1][2 * j + 1] = " * ";
-                } else if (!path) {
+                }
+                // if path is false then all cells should contain asterics
+                else if (!path) {
                     mazePrinted[2 * i + 1][2 * j + 1] = " * ";
                 }
             }
@@ -202,57 +220,6 @@ public class MyMaze{
             System.out.println();
         }
     }
-//        if (path == false) {
-//            for (int i = 0; i < mazePrinted.length; i += 2) {
-//                for (int j = 1; j < mazePrinted[i].length; j++) {
-//                    mazePrinted[i][j] = bottom;
-//                }
-//            }
-//            for (int i = 0; i < mazePrinted.length; i++) {
-//                for (int j = 0; j < mazePrinted[i].length; j += 2) {
-//                    mazePrinted[i][j] = right;
-//                }
-//            }
-//            for (int i = 1; i < mazePrinted.length; i += 2) {
-//                for (int j = 1; j < mazePrinted[i].length; j += 2) {
-//                    mazePrinted[i][j] = space;
-//                }
-//            }
-//            mazePrinted[1][0] = " ";
-//            mazePrinted[mazePrinted.length-2][mazePrinted[0].length-1] = " ";
-//            for (int i = 0; i < mazePrinted.length; i++) {
-//                for (int j = 0; j < mazePrinted.length; j++) {
-//                    System.out.print(mazePrinted[i][j]);
-//                }
-//                System.out.print("\n");
-//            }
-//
-//        }
-//        else {
-//            for (int i = 0; i < mazePrinted.length; i += 2) {
-//                for (int j = 1; j < mazePrinted[i].length; j++) {
-//                    mazePrinted[i][j] = bottom;
-//                }
-//            }
-//            for (int i = 0; i < mazePrinted.length; i++) {
-//                for (int j = 0; j < mazePrinted[i].length; j += 2) {
-//                    mazePrinted[i][j] = right;
-//                }
-//            }
-//            for (int i = 1; i < mazePrinted.length; i += 2) {
-//                for (int j = 1; j < mazePrinted[i].length; j += 2) {
-//                    mazePrinted[i][j] = space;
-//                }
-//            }
-//            mazePrinted[1][0] = " ";
-//            mazePrinted[mazePrinted.length-2][mazePrinted[0].length-1] = " ";
-//            for (int i = 0; i < mazePrinted.length; i++) {
-//                for (int j = 0; j < mazePrinted.length; j++) {
-//                    System.out.print(mazePrinted[i][j]);
-//                }
-//                System.out.print("\n");
-//            }
-//        }
 
     /* TODO: Solve the maze using the algorithm found in the writeup. */
     public void solveMaze() {
@@ -324,6 +291,6 @@ public class MyMaze{
     public static void main(String[] args){
         /* Any testing can be put in this main function */
         MyMaze x = new MyMaze(6,6);
-        x.printMaze(true);
+        x.printMaze(false);
     }
 }
