@@ -43,6 +43,8 @@ public class MyMaze{
             int row = nextPossiblelevel[0];
             int column = nextPossiblelevel[1];
 
+            //fix setters
+
             if (options.length > 0) {
                 int randomIndex = r.nextInt(options.length);
                 //need to check each value
@@ -54,8 +56,11 @@ public class MyMaze{
                     eastMovement[0] = row;
                     eastMovement[1] = column;
                     m.maze[row][column].setVisited(true);//since we know we can go to the right, this is true
-                    m.maze[row][column].setRight(true);//we go into the right and set right to be true
+                    m.maze[row][column].setRight(false);//we go into the right and set right to be true
+
+
                     //load the east movement onto the stack bc the coordinates are right
+
                     s.push(eastMovement);
 
 
@@ -65,7 +70,10 @@ public class MyMaze{
                     int[] westMovement = new int[2];
                     westMovement[0] = row;
                     westMovement[1] = column;
-                    m.maze[row][column].setVisited(true);//since we know we can go to the left, this is true
+                    m.maze[row][column].setVisited(true);
+                    m.maze[row][column].setRight(false);
+
+                    //since we know we can go to the left, this is true
                     //There is no right wall so we do not have to worry about that.
                     s.push(westMovement);
 
@@ -200,64 +208,68 @@ public class MyMaze{
     public void solveMaze() {
         //check to see if there is a right wall or a bottom. Do this before you do anything.
         //there is no bottom or right wall, then you can go from there
+        Q1Gen q = new Q1Gen();
+        q.add(new int[]{0, 0});
+
+        while (!(q.isEmpty())) {
+
+            int[] frontElement = (int[]) q.remove();
+
+
+            this.maze[frontElement[0]][frontElement[1]].setVisited(true);
+
+            if (frontElement[0] == (this.rows - 1) && frontElement[1] == (this.cols - 1)) {
+                break;
+            } else {
+                //make a check to avoid index errors
+                //check east neighbor
+
+                if (frontElement[1] < this.rows) {
+                    Cell east = this.maze[frontElement[0]][frontElement[1] + 1];
+                    if (east.getVisited() == false && this.maze[frontElement[0]][frontElement[1]].getRight() == false) {
+                        int[] eastOfElement = new int[2];
+                        eastOfElement[0] = frontElement[0] + 1;
+                        eastOfElement[1] = frontElement[1];
+
+                        q.add(eastOfElement);
+
+                    }
+                }
+                //check west neighbor
+                if (frontElement[1] >= 1) {
+                    Cell west = this.maze[frontElement[0]][frontElement[1] - 1];
+                    if (west.getVisited() == false && west.getRight() == false) {
+                        int[] westOfElement = new int[2];
+                        westOfElement[0] = frontElement[0] - 1;
+                        westOfElement[1] = frontElement[1];
+
+                        q.add(westOfElement);
+
+                    }
+                }
+                if (frontElement[0] >= 1) {
+                    Cell south = this.maze[frontElement[0] - 1][frontElement[1]];
+                    if (south.getVisited() == false && this.maze[frontElement[0]][frontElement[1]].getBottom() == false) {
+                        int[] southOfElement = new int[2];
+                        southOfElement[0] = frontElement[0];
+                        southOfElement[1] = frontElement[1] - 1;
+
+                        q.add(southOfElement);
+                    }
+                }
+                if (frontElement[0] < this.cols) {
+                    Cell north = this.maze[frontElement[0] + 1][frontElement[1]];
+                    if (north.getVisited() == false && north.getBottom() == false) {
+                        int[] northOfElement = new int[2];
+                        northOfElement[0] = frontElement[0];
+                        northOfElement[1] = frontElement[1] - 1;
+
+                        q.add(northOfElement);
+                    }
+                }
+            }
         }
-//        Q1Gen q = new Q1Gen();
-//        q.add(new int[]{0, 0});
-//
-//        while (!(q.isEmpty())) {
-//
-//            int[] frontElement = (int[]) q.remove();
-//
-//            if (frontElement[0] == this.rows - 1 && frontElement[1] == this.cols - 1) {
-//                break;
-//            } else {
-//                int column = frontElement[1];
-//                int row = frontElement[0];
-//                int[] options = spotsOpen(this.maze, frontElement, row, column);
-//
-//                for (int i = 0; i < options.length; i++) {
-//                    if (options[i] == 1) {//East
-////                int[] eastMovement = nextPossiblelevel[[0]+1][1];
-//
-//                        row = row + 1;
-//                        int[] eastMovement = new int[2];
-//                        eastMovement[0] = row;
-//                        eastMovement[1] = column;
-//                        this.maze[row][column].setVisited(true);//since we know we can go to the right, this is true
-//                        this.maze[row][column].setRight(true);//we go into the right and set right to be true
-//                        //load the east movement onto the stack bc the coordinates are right
-//                        q.add(eastMovement);
-//                    } else if (options[i] == 2) {//west
-//                        row = row - 1;
-//                        int[] westMovement = new int[2];
-//                        westMovement[0] = row;
-//                        westMovement[1] = column;
-//                        this.maze[row][column].setVisited(true);//since we know we can go to the left, this is true
-//                        //There is no right wall so we do not have to worry about that.
-//                        q.add(westMovement);
-//                    } else if (options[i] == 3) {//south
-//                        column = column - 1;
-//                        int[] southMovement = new int[2];
-//                        southMovement[0] = row;
-//                        southMovement[1] = column;
-//                        this.maze[row][column].setVisited(true);//since we know we can go below, this is true
-//                        this.maze[row][column].setBottom(true);//we go into below and set right to be true
-//                        //load the south movement onto the stack bc the coordinates are right
-//                        q.add(southMovement);
-//                    } else if (options[i] == 4) {//north
-//                        column = column + 1;
-//                        int[] northMovement = new int[2];
-//                        this.maze[row][column].setVisited(true);//since we know we can go below, this is true
-//                        northMovement[0] = row;
-//                        northMovement[1] = column;
-//                        //load the south movement onto the stack bc the coordinates are right
-//                        q.add(northMovement);
-//                    }
-//                }
-//            }
-//        }
-//        printMaze(true);
-//    }
+    }
     public static void main(String[] args){
         /* Any testing can be put in this main function */
 
