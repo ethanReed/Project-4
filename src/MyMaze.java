@@ -99,8 +99,8 @@ public class MyMaze{
                     s.push(northMovement);
                 }
             }else {//since we covered our bases if there is not an open spot we pop nextPossibleLevel off the stack
-                    s.pop();
-                }
+                s.pop();
+            }
             //Now that we have gone through the whole maze, we need to reset has visited, but we have established a path through the maze
         }
         for (int i = 0; i < m.maze.length; i++) {
@@ -161,48 +161,69 @@ public class MyMaze{
     }
     /* TODO: Print a representation of the maze to the terminal */
     public void printMaze(boolean path) {
-        if (path == true) {
-            String mazePrinted = "";
-            for (int i = 0; i < this.rows; i++) {
-                for (int j = 0; j < this.cols; j++) {
-                    mazePrinted += "|---|";
-                    if (path == true) {
-                        if (this.maze[i][j].getVisited() == true) {//make these if statements
-                            mazePrinted += "*";
-                        }
-                        if (this.maze[i][j].getBottom() == true) {
-                            mazePrinted += "|---|";
-                        }
-                        if ((this.maze[i][j].getRight()) == true) {
-                            mazePrinted += "|";
-                        }
-                        //check if the bottom is there
-                        //check to see if right wall is there
-                    }
+        String mazePrinted[][] = new String[rows * 2+1][cols * 2+1];
+        String visited = " * ";
+        String bottom = "---";
+        String right = "|";
+        String space = "   ";
+//        if (path == true) {
+//            for (int i = 0; i < this.rows; i += 2) {
+//                for (int j = 0; j < this.cols; j++) {
+//                    if (this.maze[i][j].getRight() == true) {
+//                        mazePrinted[i][j] = right;
+//                    }
+//                }
+//            }
+//            for (int i = 0; i < this.rows; i += 2) {
+//                for (int j = 0; j < this.cols; j++) {
+//                    if (this.maze[i][j].getVisited() == true) {
+//                        mazePrinted[i][j] = visited;
+//                    }
+//                }
+//            }
+//            for (int i = 0; i < this.rows; i++) {
+//                for (int j = 1; j < this.cols; j += 2) {
+//                    if (this.maze[i][j].getBottom() == true) {
+//                        mazePrinted[i][j] = bottom;
+//                    }
+//                }
+//            }
+//            for (int i = 1; i < this.rows; i += 2) {
+//                for (int j = 1; j < this.cols; j += 2) {
+//                    mazePrinted[i][j] = space;
+//                }
+//            }
+//            for (int i = 0; i < mazePrinted.length; i++) {
+//                for (int j = 0; j < mazePrinted.length; j++) {
+//                    System.out.print(mazePrinted[i][j]);
+//                }
+//                System.out.print("\n");
+//            }
+            //mazePrinted += "\n";
+            for (int i = 0; i < mazePrinted.length; i += 2) {
+                for (int j = 1; j < mazePrinted[i].length; j++) {
+                    mazePrinted[i][j] = bottom;
                 }
-                mazePrinted += "\n"; // newline character after for loop
             }
-            System.out.println(mazePrinted);
-
-        } else {
-            String mazePrinted = "";
-            for (int i = 0; i < this.rows; i++) {
-                for (int j = 0; j < this.cols; j++) {
-                    mazePrinted += "|---|";
-                    if (path == true) {
-                    }
-                    if (this.maze[i][j].getBottom() == true) {
-                        mazePrinted += "|---|";
-                    }
-                    if ((this.maze[i][j].getRight()) == true) {
-                        mazePrinted += "|";
-                    }
+            for (int i = 0; i < mazePrinted.length; i++) {
+                for (int j = 0; j < mazePrinted[i].length; j += 2) {
+                    mazePrinted[i][j] = right;
                 }
-                mazePrinted += "\n"; // newline character after for loop
             }
-            System.out.println(mazePrinted);
+            for (int i = 1; i < mazePrinted.length; i += 2) {
+                for (int j = 1; j < mazePrinted[i].length; j += 2) {
+                    mazePrinted[i][j] = space;
+                }
+            }
+            mazePrinted[1][0] = " ";
+            mazePrinted[mazePrinted.length-2][mazePrinted[0].length-1] = " ";
+            for (int i = 0; i < mazePrinted.length; i++) {
+                for (int j = 0; j < mazePrinted.length; j++) {
+                    System.out.print(mazePrinted[i][j]);
+                }
+                System.out.print("\n");
+            }
         }
-    }
 
     /* TODO: Solve the maze using the algorithm found in the writeup. */
     public void solveMaze() {
@@ -270,11 +291,11 @@ public class MyMaze{
             }
         }
     }
+
     public static void main(String[] args){
         /* Any testing can be put in this main function */
-
         MyMaze x = new MyMaze(6,6);
-        x.makeMaze(x.rows,x.cols);
+        x.printMaze(false);
 
     }
 }
