@@ -70,6 +70,7 @@ public class MyMaze{
                     m.maze[row][Ecolumn].setVisited(true);//since we know we can go to the right, this is true
                     m.maze[nextPossiblelevel[0]][nextPossiblelevel[1]].setRight(false);//we go into the right and set right to be true
 
+                    System.out.println("right is " +  m.maze[nextPossiblelevel[0]][nextPossiblelevel[1]].getRight());
 
                     //load the east movement onto the stack bc the coordinates are right
 
@@ -78,7 +79,6 @@ public class MyMaze{
 
                 } else if (options[randomIndex] == 2) {//west: same thing as east, but subtracting 1 from column
 
-
                     int Wcolumn = column - 1;
                     int[] westMovement = new int[2];
                     westMovement[0] = row;
@@ -86,9 +86,12 @@ public class MyMaze{
 
 
 
+
                     m.maze[row][Wcolumn].setVisited(true);
                     m.maze[row][Wcolumn].setRight(false);
 
+
+                    System.out.println("right is " +  m.maze[row][Wcolumn].getRight());
                     //since we know we can go to the left, this is true
                     //There is no right wall so we do not have to worry about that.
                     s.push(westMovement);
@@ -103,6 +106,7 @@ public class MyMaze{
                     m.maze[Nrow][column].setBottom(false);
                     //load the south movement onto the stack bc the coordinates are right
 
+                    System.out.println("bottom is " +  m.maze[Nrow][column].getBottom());
 
                     s.push(northMovement);
 
@@ -111,6 +115,8 @@ public class MyMaze{
                     int[] southMovement = new int[2];
                     m.maze[Srow][column].setVisited(true);//since we know we can go below, this is true
                     m.maze[nextPossiblelevel[0]][nextPossiblelevel[1]].setBottom(false);
+
+                    System.out.println("bottom is " +  m.maze[nextPossiblelevel[0]][nextPossiblelevel[1]].getBottom());
 
                     southMovement[0] = Srow;
                     southMovement[1] = column;
@@ -273,6 +279,7 @@ public class MyMaze{
     public void solveMaze() {
         //check to see if there is a right wall or a bottom. Do this before you do anything.
         //there is no bottom or right wall, then you can go from there
+
         for (int i = 0; i < this.maze.length; i++) {
             for (int j = 0; j < this.maze.length; j++) {
                 this.maze[i][j].setVisited(false);
@@ -287,6 +294,8 @@ public class MyMaze{
             while (!(q.isEmpty())) {
 
                 int[] frontElement = (int[]) q.remove();
+
+                Cell current = maze[frontElement[0]][frontElement[1]];
 
                 System.out.println(frontElement[0] + " " + frontElement[1]);
 
@@ -324,7 +333,7 @@ public class MyMaze{
 
                         }
                     }
-                    if (frontElement[0] < this.rows - 1) {//south case
+                    if (frontElement[0] > 1) {//south case
                         Cell south = this.maze[frontElement[0] - 1][frontElement[1]];
                         if (south.getVisited() == false && this.maze[frontElement[0]][frontElement[1]].getBottom() == false) {
                             int[] southOfElement = new int[2];
@@ -335,7 +344,7 @@ public class MyMaze{
                             q.add(southOfElement);
                         }
                     }
-                    if (frontElement[0] > 1) {
+                    if (frontElement[0] < this.rows - 1) {//north
                         Cell north = this.maze[frontElement[0] + 1][frontElement[1]];
                         if (north.getVisited() == false && north.getBottom() == false) {
                             int[] northOfElement = new int[2];
@@ -348,13 +357,11 @@ public class MyMaze{
                     }
                 }
             }
+            this.printMaze(true);
         }
     public static void main(String[] args){
         /* Any testing can be put in this main function */
         MyMaze r = makeMaze(6,9);
-
-        r.printMaze(false);
         r.solveMaze();
-        r.printMaze(true);
     }
 }
