@@ -165,6 +165,8 @@ public class MyMaze{
         String bottom = "---";
         String right = "|";
         String space = "   ";
+        Stack1Gen<int[]> s = new Stack1Gen<>();
+        s.push(new int[] {0,0});
         for (int i = 0; i < mazePrinted.length; i += 2) {
             for (int j = 1; j < mazePrinted[i].length; j++) {
                 mazePrinted[i][j] = bottom;
@@ -182,34 +184,47 @@ public class MyMaze{
         }
         mazePrinted[1][0] = " ";
         mazePrinted[mazePrinted.length-2][mazePrinted[0].length-1] = " ";
+
+        // loops through the individual indexes of the 2D array
         for (int i = 0; i < maze.length; i++) {
-            for (int j = 0; j < maze.length; j++) {
-                maze[i][j].setVisited(true);
-                //left
-                if (j - 1 >= 0 && !(maze[i][j - 1].getVisited()) && !maze[i][j - 1].getRight()) {
-                    maze[i][j - 1].setVisited(true);
-                    mazePrinted[2 * i + 1][2 * j] = " ";
-                }
-                //right
-                if ((j + 1) < maze[0].length && !(maze[i][j + 1].getVisited()) && !maze[i][j].getRight()) {
-                    mazePrinted[2 * i + 1][2 * (j + 1)] = " ";
-                }
-                //top
-                if (i - 1 >= 0 && !maze[i - 1][j].getVisited() && !maze[i - 1][j].getBottom()) {
-                    maze[i - 1][j].setVisited(true);
-                    mazePrinted[2 * i][2 * j + 1] = "   ";
-                }
-                //bottom
-                if (i + 1 < maze.length && !maze[i + 1][j].getVisited() && !maze[i][j].getBottom()) {
-                    mazePrinted[2 * (i + 1)][2 * j + 1] = "   ";
-                }
-                //update
-                if (path && maze[i][j].getVisited()) {
-                    mazePrinted[2 * i + 1][2 * j + 1] = " * ";
-                }
-                // if path is false then all cells should contain asterics
-                else if (!path) {
-                    mazePrinted[2 * i + 1][2 * j + 1] = " * ";
+            for (int j = 0; j < maze[0].length; j++) {
+                while(!s.isEmpty()){
+                    int[] cur = s.pop();
+                    i = cur[0];
+                    j = cur[1];
+                    maze[i][j].setVisited(true);
+
+                    //left
+                    if (j - 1 >= 0 && !(maze[i][j - 1].getVisited()) && !maze[i][j - 1].getRight()) {
+                        maze[i][j - 1].setVisited(true);
+                        mazePrinted[2 * i + 1][2 * j] = " ";
+                    }
+
+                    //right
+                    if ((j + 1) < maze[0].length && !(maze[i][j + 1].getVisited()) && !maze[i][j].getRight()) {
+                        mazePrinted[2 * i + 1][2 * (j + 1)] = " ";
+                    }
+
+                    //top
+                    if (i - 1 >= 0 && !(maze[i - 1][j].getVisited()) && !maze[i - 1][j].getBottom()) {
+                        maze[i - 1][j].setVisited(true);
+                        mazePrinted[2 * i][2 * j + 1] = "   ";
+                    }
+
+                    //bottom
+                    if (i + 1 < maze.length && !(maze[i + 1][j].getVisited()) && !maze[i][j].getBottom()) {
+                        mazePrinted[2 * (i + 1)][2 * j + 1] = "   ";
+                    }
+
+                    //if the path is true and an index has been visited, it will print an asterisk
+                    if (path && maze[i][j].getVisited()) {
+                        mazePrinted[2 * i + 1][2 * j + 1] = " * ";
+                    }
+
+                    // if path is false then all cells should contain nothing
+                    else if (!path) {
+                        mazePrinted[2 * i + 1][2 * j + 1] = "   ";
+                    }
                 }
             }
         }
@@ -218,6 +233,12 @@ public class MyMaze{
                 System.out.print(mazePrinted[i][j]);
             }
             System.out.println();
+        }
+
+        for(Cell[] i : maze) {
+            for(Cell j: i) {
+                j.setVisited(false);
+            }
         }
     }
 
@@ -291,6 +312,6 @@ public class MyMaze{
     public static void main(String[] args){
         /* Any testing can be put in this main function */
         MyMaze x = new MyMaze(6,6);
-        x.printMaze(false);
+        x.printMaze(true);
     }
 }
