@@ -159,7 +159,7 @@ public class MyMaze{
         }
         return possibleChoices;
     }
-    /* TODO: Print a representation of the maze to the terminal */
+    /* Prints a representation of the maze to the terminal */
     public void printMaze(boolean path) {
         String mazePrinted[][] = new String[rows * 2 + 1][cols * 2 + 1];
         String bottom = "---";
@@ -197,22 +197,26 @@ public class MyMaze{
                     //left
                     if (j - 1 >= 0 && !(maze[i][j - 1].getVisited()) && !maze[i][j - 1].getRight()) {
                         maze[i][j - 1].setVisited(true);
+                        s.push(new int[] {i, j-1});
                         mazePrinted[2 * i + 1][2 * j] = " ";
                     }
 
                     //right
                     if ((j + 1) < maze[0].length && !(maze[i][j + 1].getVisited()) && !maze[i][j].getRight()) {
+                        s.push(new int[] {i, j+1});
                         mazePrinted[2 * i + 1][2 * (j + 1)] = " ";
                     }
 
                     //top
                     if (i - 1 >= 0 && !(maze[i - 1][j].getVisited()) && !maze[i - 1][j].getBottom()) {
                         maze[i - 1][j].setVisited(true);
+                        s.push(new int[] {i-1,j});
                         mazePrinted[2 * i][2 * j + 1] = "   ";
                     }
 
                     //bottom
                     if (i + 1 < maze.length && !(maze[i + 1][j].getVisited()) && !maze[i][j].getBottom()) {
+                        s.push(new int[] {i+1,j});
                         mazePrinted[2 * (i + 1)][2 * j + 1] = "   ";
                     }
 
@@ -228,13 +232,14 @@ public class MyMaze{
                 }
             }
         }
+        // prints the maze
         for (int i = 0; i < mazePrinted.length; i++) {
             for (int j = 0; j < mazePrinted.length; j++) {
                 System.out.print(mazePrinted[i][j]);
             }
             System.out.println();
         }
-
+        // resets setVisted to false
         for(Cell[] i : maze) {
             for(Cell j: i) {
                 j.setVisited(false);
